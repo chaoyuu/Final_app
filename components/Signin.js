@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Button,StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
 export function Signin ( props ) {
@@ -8,8 +8,9 @@ export function Signin ( props ) {
   const [validEmail,setValidEmail] = useState()
   const [validPassword,setValidPassword] = useState()
 
+  const navigation = useNavigation()
+
   useEffect( () => {
-    
     const emailNoSpaces = email.split(' ').join('').length
     if( email.length >= 5 && email.length === emailNoSpaces) {
       setValidEmail( true )
@@ -32,10 +33,14 @@ export function Signin ( props ) {
     }
   }, [ props.auth ])
 
-  const navigation = useNavigation()
+  const SignIn = () => {
+    props.handler( email, password )
+  }
+
+  
   return(
-    <View>
-      <Text style={SigninStyles.heading}>Sign in to your account</Text>
+    <View style={SigninStyles.container}>
+      <Text style={SigninStyles.heading}>If you have a account ,please sign in to your account</Text>
       <Text>Email</Text>
       <TextInput 
       style={SigninStyles.input}
@@ -49,31 +54,54 @@ export function Signin ( props ) {
       />
       <TouchableOpacity 
       style={(!validEmail || !validPassword) ? SigninStyles.buttonDisabled : SigninStyles.button} 
-      onPress={ () => props.handler }
+      onPress={ SignIn }
       disabled={ (!validEmail || !validPassword) ? true:false}
       >
         <Text style={SigninStyles.buttonText}>Sign in</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={ () => navigation.navigate("Signup") }>
-        <Text>Sign up for an account</Text>
+        <Text style={{textAlign:'center',}}>Sign up for an account</Text>
       </TouchableOpacity>
+      <Button
+   title="Go to Signup"
+   onPress={() => navigation.navigate('Signup')}
+ />
+
     </View>
   )
 }
 
 const SigninStyles = StyleSheet.create({
+  container: {
+    marginHorizontal: 20,
+    marginVertical: 30,
+    backgroundColor: 'yellow',
+    paddingVertical:20,
+    paddingHorizontal: 10,
+    borderRadius:10,
+  },
   heading: {
     fontSize: 22,
+    fontWeight:"500",
+    marginVertical: 30,
+  },
+  label: {
+    fontWeight: "500",
   },
   input: {
     fontSize: 18,
     borderColor: '#cccccc',
-    borderWidth: 2,
+    borderWidth: 1,
+    borderRadius:4,
+    paddingHorizontal:5,
+    paddingVertical: 5,
+    marginBottom: 10,
+    backgroundColor: '#ffffff',
   },
   button: {
     backgroundColor: '#000000',
-    padding: 5,
-    marginVertical: 10,
+    padding: 8,
+    marginVertical: 20,
   },
   buttonText: {
     color: '#ffffff',
@@ -81,7 +109,7 @@ const SigninStyles = StyleSheet.create({
   },
   buttonDisabled: {
     backgroundColor: '#cccccc',
-    padding: 5,
-    marginVertical: 10,
+    padding: 8,
+    marginVertical: 20,
   }
 })
