@@ -1,49 +1,70 @@
-import React, {useState, useEffect} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity,Modal,FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Button, StyleSheet, Text, View, TextInput, TouchableOpacity, Modal, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import DateTimePicker from '@react-native-community/datetimepicker'
 import { Logout } from './Logout';
+import { Profiler } from './Profile';
 import { event } from 'react-native-reanimated';
-export function Home (props) {
-  const [user,setUser] = useState()
-  const [author, setAuthor] = useState()
-const [title,setTitle] = useState()
-const [date,setDate] = useState()
+import { installReactHook } from 'react-native/Libraries/Performance/Systrace';
+export function Home(props) {
+  const [user, setUser] = useState()
+  const [borrower, setAuthor] = useState()
+  const [bookname, setTitle] = useState()
+  const [date, setDate] = useState()
   const navigation = useNavigation()
-  navigation.setOptions({
-    headerRight:() => (
-      <Logout handler={signOut}/>
 
-    )
+
+
+
+
+  useEffect(() => {
+    if (props.auth) {
+      setUser(props.auth)
+    }
+    else {
+      setUser(null)
+    }
+    navigation.setOptions({
+      headerLeft: props => <Logout {...props} handler={signOut} />
+    })
+
+
+
+
+
   })
-  const signOut =() => {
+
+
+
+  const signOut = () => {
 
     props.signout()
-    .then( (result) => {
-      if( result=== true){
-        navigation.reset({ index: 0, routes: [ {name: "Signin"} ]})
-      }
-    })
-    .catch((error) => console.log(error))
-  
+      .then((result) => {
+        if (result === true) {
+          navigation.reset({ index: 0, routes: [{ name: "Signin" }] })
+        }
+      })
+      .catch((error) => console.log(error))
+
   }
   const Greeting = () => {
-    if(!user) {
+    if (!user) {
       return null
     }
-    else{
+    else {
       return <Text>{user.email}</Text>
     }
   }
-  const handleDate = (event,selectedDate) => {
-    
+  const handleDate = (event, selectedDate) => {
+
     setDate( selectedDate)
   }
+  
   const handleSubmit = () => {
-    if( title && author && date ) {
+    if( bookname && borrower && date ) {
       let book = new Object()
-      book.title = title
-      book.author = author
+      book.bookname = bookname
+      book.borrower = borrower
       book.date = date
       props.add( book )
       .then( (result) => console.log(result))
@@ -54,33 +75,64 @@ const [date,setDate] = useState()
       console.log( 'no data', author, title, date )
     }
   }
-  return(
-    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  return (
+
     <View style={HomeStyles.pageContainer}>
-      <Greeting/>
-      <Text>Contact Us with chaoyu@gmail.com</Text>
-      <Text>Add a book you have read</Text>
-      <Text>Title</Text>
-      <TextInput style={HomeStyles.input} onChangeText={ val =>setTitle(val) }/>
-      <Text>Author</Text>
-      <TextInput style={HomeStyles.input} onChangeText={ val =>setAuthor(val) }/>
-      <TextInput/>
-      <Text>Started date</Text>
+      <Greeting />
+      <Text>If you want to any help please contact Us with chaoyu@gmail.com</Text>
+     
+      <Text>Borrow Book name</Text>
+      <TextInput style={HomeStyles.input} onChangeText={val => setTitle(val)} />
+      <Text>Borrower</Text>
+      <TextInput style={HomeStyles.input} onChangeText={val => setAuthor(val)} />
+      <TextInput />
+      <Text>Borrow date</Text>
       {/*<TextInput style={HomeStyles.input} onChangeText={ val =>setDate(val) }/>*/}
       <DateTimePicker
-    testID="dateTimePicker"
-    value={new Date()}
-    is24Hour={true}
-    display="default"
-    onChange={handleDate}
-  />
-      <TouchableOpacity style={HomeStyles.button}>
-        <Text style={HomeStyles.buttonText}>Add book</Text>
-        </TouchableOpacity>     
-    
+        testID="dateTimePicker"
+        value={new Date()}
+        is24Hour={true}
+        display="default"
+      onChange={handleDate}
+      />
+      <TouchableOpacity style={HomeStyles.button} onPress={handleSubmit}>
+   <Text style={HomeStyles.buttonText}>Borrow Book</Text>
+ </TouchableOpacity>
+     
+     
       {/*<Text style={{textAlign:'center'}}>Home</Text>*/}
+      <Button
+        title="Go to Profile"
+
+
+        onPress={() => navigation.navigate('Profile')}
+
+
+      />
+       <Button
+   title="Go to Detail"
+   onPress={() => navigation.navigate('Detail')}
+ />
+
+
+      <FlatList />
     </View>
   )
+
 }
 
 const HomeStyles = StyleSheet.create({
@@ -92,6 +144,7 @@ const HomeStyles = StyleSheet.create({
   input: {
     backgroundColor: 'white',
     padding: 5,
+    color:'red'
   },
   button: {
     backgroundColor: 'blue',
@@ -103,6 +156,7 @@ const HomeStyles = StyleSheet.create({
     textAlign: 'center',
   },
 })
+
 
 
 
