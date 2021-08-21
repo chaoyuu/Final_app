@@ -4,7 +4,7 @@
     "slug": "Final-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/borrow_book_logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
