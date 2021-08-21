@@ -40,7 +40,7 @@ export function Signin ( props ) {
   
   return(
     <View style={SigninStyles.container}>
-      <Text style={SigninStyles.heading}>If you have a account ,please sign in to your account</Text>
+      <Text style={SigninStyles.heading}>If you have an account ,please sign in to your account</Text>
       <Text>Email</Text>
       <TextInput 
       style={SigninStyles.input}
