@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Button,StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 
 export function Signup ( props ) {
@@ -66,13 +66,22 @@ export function Signup ( props ) {
       <TouchableOpacity onPress={ () => navigation.navigate("Signin") }>
         <Text>Sign in to your account</Text>
       </TouchableOpacity>
+      <Button
+  title="Go to Signin"
+  onPress={() => navigation.navigate('Signin')}
+/>
     </View>
+    
   )
 }
 
 const SignupStyles = StyleSheet.create({
   heading: {
     fontSize: 22,
+  },
+  container: {
+    flex: 1,
+   
   },
   input: {
     fontSize: 18,
