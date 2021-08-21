@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button,SafeAreaView, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-
+//import React, { useState, useEffect } from 'react';
 export function Profile(props) {
-
+    const [borrower, setAuthor] = useState()
     const navigation = useNavigation()
 
     const [text, onChangeText] = React.useState("");
@@ -36,10 +36,9 @@ export function Profile(props) {
                 <Text>Borrower </Text>
 
                 <TextInput
-                    style={ProfileStyles.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                />
+                 style={ProfileStyles.input} 
+                 onChangeText={val => 
+                 setAuthor(val)} />
                
 
             </View>
