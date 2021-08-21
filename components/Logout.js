@@ -15,6 +15,6 @@ export function Logout( props ) {
 
 const styles = StyleSheet.create( {
   button : {
-    backgroundColor: "blue",
+    backgroundColor: "yellow",
   }
 })
